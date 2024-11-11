@@ -12,6 +12,25 @@ BPPJ
     ------------------------------------- INICIO ITred Spa Detalle cliente.PHP --------------------------------------
     ------------------------------------------------------------------------------------------------------------- -->
 
+<?php
+// Debugging: Verificar conexión a la base de datos
+if (!isset($mysqli)) {
+    die("Error: La conexión a la base de datos no está establecida");
+}
+
+// Consulta para obtener los lugares
+$sql_lugares = "SELECT id, nombre_lugar FROM Tp_Lugar ORDER BY nombre_lugar";
+$result_lugares = $mysqli->query($sql_lugares);
+
+// Debugging: Verificar si hay error en la consulta
+if (!$result_lugares) {
+    die("Error en la consulta: " . $mysqli->error);
+}
+
+// Debugging: Verificar cantidad de resultados
+$num_lugares = $result_lugares ? $result_lugares->num_rows : 0;
+echo "<!-- Número de lugares encontrados: " . $num_lugares . " -->"; // Comentario HTML para debug
+?>
 
 <!-- TÍTULO: Archivo CSS -->
 
@@ -109,27 +128,25 @@ BPPJ
 
             <!-- TÍTULO: CAMPO PARA EL LUGAR DEL CLIENTE -->
 
-                <!-- TÍTULO: CAMPO PARA EL LUGAR DEL CLIENTE -->
+            <!-- Etiqueta PARA el campo de selección del lugar del cliente -->
+            <label for="cliente_lugar">Lugar:</label> 
 
-                <!-- Etiqueta PARA el campo de selección del lugar del cliente -->
-                <label for="cliente_lugar">Lugar:</label> 
+            <!-- TÍTULO: CAMPO PARA SELECCIONAR EL LUGAR DEL CLIENTE -->
 
-                <!-- TÍTULO: CAMPO PARA SELECCIONAR EL LUGAR DEL CLIENTE -->
-
-                <!-- Campo de selección PARA el lugar del cliente. Este campo es obligatorio -->
-                <select id="cliente_lugar" name="cliente_lugar" required> 
-                    <!-- Opción por defecto -->
-                    <option value="" disabled selected>Selecciona un lugar</option>
-                    <?php 
-                    // Verificar si hay resultados antes de intentar iterarlos
-                    if ($result_lugares && $result_lugares->num_rows > 0) {
-                        while ($lugar = $result_lugares->fetch_assoc()) {
-                            echo '<option value="' . htmlspecialchars($lugar['id']) . '">' . 
-                                htmlspecialchars($lugar['cliente_lugar']) . '</option>';
-                        }
+            <!-- Campo de selección PARA el lugar del cliente. Este campo es obligatorio -->
+            <select id="cliente_lugar" name="cliente_lugar" required> 
+                <!-- Opción por defecto -->
+                <option value="" disabled selected>Selecciona un lugar</option>
+                <?php 
+                // Verificar si hay resultados antes de intentar iterarlos
+                if ($result_lugares && $result_lugares->num_rows > 0) {
+                    while ($lugar = $result_lugares->fetch_assoc()) {
+                        echo '<option value="' . htmlspecialchars($lugar['id']) . '">' . 
+                            htmlspecialchars($lugar['nombre_lugar']) . '</option>';
                     }
-                    ?>
-                </select>
+                }
+                ?>
+            </select>
             </div>
         </div>
 
