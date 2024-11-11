@@ -109,13 +109,26 @@ BPPJ
 
             <!-- TÍTULO: CAMPO PARA EL LUGAR DEL CLIENTE -->
 
+                <!-- TÍTULO: CAMPO PARA EL LUGAR DEL CLIENTE -->
+
                 <!-- Etiqueta PARA el campo de selección del lugar del cliente -->
                 <label for="cliente_lugar">Lugar:</label> 
 
-            <!-- TÍTULO: CAMPO PARA SELECCIONAR EL LUGAR DEL CLIENTE -->
+                <!-- TÍTULO: CAMPO PARA SELECCIONAR EL LUGAR DEL CLIENTE -->
 
                 <!-- Campo de selección PARA el lugar del cliente. Este campo es obligatorio -->
                 <select id="cliente_lugar" name="cliente_lugar" required> 
+                    <!-- Opción por defecto -->
+                    <option value="" disabled selected>Selecciona un lugar</option>
+                    <?php 
+                    // Verificar si hay resultados antes de intentar iterarlos
+                    if ($result_lugares && $result_lugares->num_rows > 0) {
+                        while ($lugar = $result_lugares->fetch_assoc()) {
+                            echo '<option value="' . htmlspecialchars($lugar['id']) . '">' . 
+                                htmlspecialchars($lugar['cliente_lugar']) . '</option>';
+                        }
+                    }
+                    ?>
                 </select>
             </div>
         </div>
